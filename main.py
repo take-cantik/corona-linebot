@@ -73,7 +73,7 @@ def king_game(personnum):
     i = []
     numnum = 1
     for i in range(allusernum - 1):
-        i.append(numnum)
+        i.append(str(numnum))
         numnum += 1
     #iは人の番号が入ったlist
     designuser = random.sample(i,2)
