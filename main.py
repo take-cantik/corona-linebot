@@ -10,8 +10,11 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 import os
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
 
 #環境変数取得
 LINE_CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
@@ -19,6 +22,13 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+
+    def __init__(self, username):
+        self.username = username
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -41,10 +51,21 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # ここに色々書き込むよ
+    
+    user = User(event.message.text)
+    db.session.add(user)
+    db.session.commit()
+    contents = db.session.query(User).all()
+
+    messages = []
+
+    for content in contents:
+        messages.append(TextSendMessage(content.username))
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        messages[-5:]
+    )
 
 
 if __name__ == "__main__":
