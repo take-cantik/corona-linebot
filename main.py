@@ -87,10 +87,10 @@ def handle_message(event):
     if "終了" in event.message.text:
         number = 0
         message = "り"
-    elif "eカード" in enent.message.text and "説明" in event.message.text:
+    elif "eカード" in event.message.text and "説明" in event.message.text:
         number = 0
         message = ""
-    elif "タイムストップ" in enent.message.text and "説明" in event.message.text:
+    elif "タイムストップ" in event.message.text and "説明" in event.message.text:
         number = 0
         message = ""
     elif "eカード" in event.message.text: 
