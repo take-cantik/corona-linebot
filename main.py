@@ -30,6 +30,35 @@ class Variable(db.Model):
     def __init__(self, usernum):
         self.usernum = usernum
 
+class Timestop(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    set_time = db.Column(db.Integer, unique=False)
+    start_time = db.Column(db.Integer, unique=False)
+
+    def __init__(self, set_time, start_time):
+        self.set_time = set_time
+        self.start_time = start_time
+
+def time_start(time):
+    time = int(time)
+    sleep(3)
+    message = "スタート！"
+    start = int(time.time())
+    return start, time, message
+
+def timeresult(time, start):
+    usertime = int(time.time())
+    time_2 = start + time
+    usertime = usertime / 1000
+
+    if usertime > time_2:
+        message = time + "秒以上でした。\n残念賞！！！"
+    elif usertime <= time_2:
+        dif_time = abs(time_2 - usertime) #絶対値
+        message = time + "秒との差は" + dif_time + "秒でした。"
+    return message
+
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -53,23 +82,37 @@ def callback():
 def handle_message(event):
     # ここに色々書き込むよ
     contents = db.session.query(Variable).all()
-    print("AHIAHIAHI")
-    print(contents)
-    print("AHIAHIAHI")
     num = contents[-1].usernum
-    print("numtype", type(num))
 
     if "終了" in event.message.text:
         number = 0
         message = "り"
+    elif "eカード" in enent.message.text and "説明" in event.message.text:
+        number = 0
+        message = ""
+    elif "タイムストップ" in enent.message.text and "説明" in event.message.text:
+        number = 0
+        message = ""
     elif "eカード" in event.message.text: 
         number = 1
         message = "ほいだらスタートや！\nなんかテキトーに送ってや。"
     elif "タイムストップ" in event.message.text:
         number = 2
-        message = "ほいだらスタートや！\nなんかテキトーに送ってや。"
+        message = "ほいだらスタートや！\n何秒にするか数字だけ送ってや！"
+    elif num == 2:
+        time_start(event.message.text)
+        timestop = Timestop(time, start)
+        db.session.add(timestop)
+        db.session.commit()
+        number = 3
+    elif num == 3:
+        time_contents = db.session.query(Timestop).all()
+        st_ti = time_contents[-1].start_time
+        se_ti = time_contents[-1].set_time
+        timeresult(se_ti, st_ti)
+        number = 0
     else:
-        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\nやりたいゲーム名を入力してください。"
+        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と説明を送ると分かるよ！"
         
 
 
@@ -77,7 +120,7 @@ def handle_message(event):
     variable = Variable(num)
     db.session.add(variable)
     db.session.commit()
-    contents = db.session.query(Variable).all()
+    #contents = db.session.query(Variable).all()
 
     #print(contents)
     
