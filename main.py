@@ -31,6 +31,7 @@ class Variable(db.Model):
         self.usernum = usernum
 
 num = 50
+print(num)
 
 @app.route("/callback", methods=['POST'])
 def callback():
