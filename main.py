@@ -221,8 +221,10 @@ def handle_message(event):
         number = 0
     elif num == 30:
         message = king_game(event.message.text)
+        number = 0
     elif num == 40:
         message = zyanken(event.message.text)
+        number = 0
     else:
         message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と説明を送ると分かるよ！"
         number = 0   
