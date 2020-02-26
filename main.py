@@ -26,6 +26,15 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 #クラス指定
+class Egame(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    king_card = db.Column(db.Integer, unique=False)
+    turn = db.Column(db.Integer, unique=False)
+
+    def __init__(self, king_card, turn):
+        self.king_card = king_card
+        self.turn = turn
+
 class Variable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usernum = db.Column(db.Integer, unique=False)
@@ -50,6 +59,49 @@ class Inputstop(db.Model):
     def __init__(self, start_time, select_text):
         self.start_time = start_time
         self.select_text = select_text
+
+# eゲームの関数
+#"user1は数字を選択してください　\n king:0 \n citizen:1"
+def user1_chose1(reply, num):
+    if str(0) in reply:
+        k = 0
+    else:
+        k = 1
+
+    num += 1
+    return k, num
+
+def user1_chose2(reply):
+    if str(0) in reply:
+        k = 0
+    else:
+        k = 1
+
+    return k
+
+#"user2は数字を選択してください　\n slave:0 \n citizen:1"
+def user2_chose(reply):
+    if str(0) in reply:
+        s = 0
+    else:
+        s = 1
+    return s
+
+def judge(k, s, finish):
+    if k == 0 and s == 1:
+        message = "king selected KING\nslave selected CITIZEN\n\nking win!"
+        finish = 1
+    elif k == 0 and s == 0:
+        message = "king selected KING\nslave selected SLAVE\n\nslave win!"
+        finish = 1
+    elif k == 1 and s == 0:
+        message = "king selected CITIZEN\nslave selected SLAVE\n\nking win!"
+        finish = 1
+    else:
+        message = "king selected CITIZEN\nslave selected CITIZEN\n\n"
+        finish = 0
+
+    return message, finish
 
 # タイムストップの関数
 def time_start(stime):
@@ -244,7 +296,7 @@ def handle_message(event):
     # ゲームの選択
     elif "eカード" in event.message.text: 
         number = 10
-        message = "ほいだらスタートや！\nなんかテキトーに送ってや。"
+        message = "ほいだらスタートや！\nPlayer1はカードを選択してくれ\n0が王で1が市民や！"
     elif "タイムストップ" in event.message.text:
         number = 20
         message = "ほいだらスタートや！\n何秒にするか数字だけ送ってや！"
@@ -258,6 +310,59 @@ def handle_message(event):
         number = 50
         message = "ほいだらスタートや！\nなんか送ったら三秒後にお題が出るで！"
     # ゲームの内容
+    elif num == 10:
+        turn = 0
+        result = user1_chose1(event.message.text, turn)
+        k = result[0]
+        turn = result[1]
+        egame = Egame(k, turn)
+        db.session.add(egame)
+        db.session.commit()
+        message = "Player2はカードを選択してください。\n0が奴隷で1が市民や！"
+        number = 11
+    elif num == 11:
+        fi_num = 0
+        s = user2_chose(event.message.text)
+        egame_contents = db.session.query(Egame).all()
+        ki_ca = egame_contents[-1].king_card
+        result = judge(ki_ca, s, fi_num)
+        fi_num = result[1]
+
+        if fi_num == 1:
+            message = result[0]
+            number = 0
+        else:
+            message = result[0] + "draw\n\nPlayer1はカードを選択してください。\n0が王で1が市民です。"
+            number = 12
+    elif num == 12:
+        k = user1_chose2(event.message.text)
+        tu = egame_contents[-1].turn
+        tu += 1
+        egame = Egame(k, tu)
+        db.session.add(egame)
+        db.session.commit()
+        message = "Player2はカードを選択してください。\n0が奴隷で1が市民です。"
+
+        if tu == 3:
+            number = 13
+        else:
+            number = 11
+            
+    elif num == 13:
+        fi_num = 0
+        s = user2_chose(event.message.text)
+        egame_contents = db.session.query(Egame).all()
+        ki_ca = egame_contents[-1].king_card
+        result = judge(ki_ca, s, fi_num)
+        fi_num = result[1]
+
+        if fi_num == 1:
+            message = result[0]
+        else:
+            message = result[0] + "king win!"
+        
+        number = 0
+
     elif num == 20:
         result = time_start(event.message.text)
         start = result[0]
