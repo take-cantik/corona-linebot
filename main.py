@@ -61,11 +61,12 @@ def handle_message(event):
     contents = db.session.query(Variable).all()
 
     print(contents)
+    
+    messages = []
 
     for content in contents:
         messages.append(TextSendMessage(content.usernum))
 
-    messages = []
 
     line_bot_api.reply_message(
         event.reply_token,
