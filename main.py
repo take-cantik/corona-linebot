@@ -128,7 +128,7 @@ def zyanken(reply, num):
 
         #0:負け　1:勝ち　2:あいこ 基準は出した人
     if status == 0:
-        say = "あなたの犬です。このバカチンが！"
+        say = "あなたの負けです。このバカチンが！"
     elif status == 1:
         say = "ナイスですね！"
     elif status == 2:
@@ -140,7 +140,7 @@ def zyanken(reply, num):
         message = "グー、チョキ、パーをカタカナで入力してね♡"
         num = 40
     else:
-        message = "私は"+returnhand+"をだしました"+ say
+        message = "私は"+returnhand+"をだしました"+ say + "\n"
         num = 0
     return message, num
 
