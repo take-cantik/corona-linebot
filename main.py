@@ -287,7 +287,7 @@ def speed_start():
 def speed_result(start):
     usertime = float(time.time())
     difdifdif_time = usertime - (start + 1.5)
-    message = "あなたの早押し時間は{}秒でした".format(difdifdif_time)
+    message = "あなたの早押し時間は{0}秒でした".format(difdifdif_time)
     return message
 
 @app.route("/callback", methods=['POST'])
@@ -476,6 +476,9 @@ def handle_message(event):
         number = 0
     elif num == 70:
         start = speed_start()
+        print("うおおおおおおおおおおおおおおおおおおおおおおおお")
+        print(start)
+        print("うおおおおおおおおおおおおおおおおおおおおおおおお")
         speedstop = Speedstop(start)
         db.session.add(speedstop)
         db.session.commit()
