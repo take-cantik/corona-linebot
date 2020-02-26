@@ -44,14 +44,14 @@ def time_start(stime):
     stime = int(stime)
     time.sleep(3)
     message = "スタート！"
-    start = int(time.time())
+    start = float(time.time())
     print("AHIAHIAHI")
     print(start)
     print("AHIAHIAHI")
     return start, stime, message
 
 def timeresult(stime, start):
-    usertime = int(time.time())
+    usertime = float(time.time())
     print("AHIAHI")
     print(usertime)
     print("AHIAHI")
