@@ -42,7 +42,7 @@ class Timestop(db.Model):
 
 def time_start(time):
     time = int(time)
-    sleep(3)
+    time.sleep(3)
     message = "スタート！"
     start = int(time.time())
     return start, time, message
