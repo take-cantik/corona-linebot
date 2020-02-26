@@ -40,12 +40,12 @@ class Timestop(db.Model):
         self.set_time = set_time
         self.start_time = start_time
 
-def time_start(time):
-    time = int(time)
+def time_start(stime):
+    stime = int(stime)
     time.sleep(3)
     message = "スタート！"
     start = int(time.time())
-    return start, time, message
+    return start, stime, message
 
 def timeresult(time, start):
     usertime = int(time.time())
