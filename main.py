@@ -52,8 +52,9 @@ def time_start(stime):
 
 def timeresult(stime, start):
     usertime = int(time.time())
+    start /= 1000
     time_2 = start + stime
-    usertime = usertime / 1000
+    usertime /= 1000
 
     if usertime > time_2:
         message = "{}秒以上でした。\n残念賞！！！".format(stime)
