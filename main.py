@@ -53,7 +53,7 @@ def callback():
 def handle_message(event):
     # ここに色々書き込むよ
     contents = db.session.query(Variable).all()
-    num = cotents[-1]
+    num = contents[-1]
 
     if "終了" in event.message.text:
         number = 0
