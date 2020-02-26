@@ -54,6 +54,7 @@ def handle_message(event):
     # ここに色々書き込むよ
     contents = db.session.query(Variable).all()
     num = contents[-1]
+    print("numtype", type(num))
 
     if "終了" in event.message.text:
         number = 0
