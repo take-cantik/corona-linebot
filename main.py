@@ -374,7 +374,7 @@ def handle_message(event):
         egame = Egame(k, turn)
         db.session.add(egame)
         db.session.commit()
-        message = "Player2はカードを選択してください。\n0が奴隷で1が市民や！"
+        message = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\Player2はカードを選択してください。\n0が奴隷で1が市民や！"
         number = 11
     elif num == 11:
         fi_num = 0
@@ -398,7 +398,7 @@ def handle_message(event):
         egame = Egame(k, tu)
         db.session.add(egame)
         db.session.commit()
-        message = "Player2はカードを選択してください。\n0が奴隷で1が市民です。"
+        message = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPlayer2はカードを選択してください。\n0が奴隷で1が市民です。"
 
         if tu == 3:
             number = 13
