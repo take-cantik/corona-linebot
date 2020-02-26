@@ -46,6 +46,7 @@ def callback():
         handler.handle(body, signature)
 
     except LineBotApiError as e:
+        abort(400)
     except InvalidSignatureError:
         abort(400)
 
