@@ -60,15 +60,14 @@ def handle_message(event):
     db.session.commit()
     contents = db.session.query(User).all()
 
-    #messages = []
-    message = profile
+    messages = []
 
-    #for content in contents:
-    #    messages.append(TextSendMessage(content.username))
+    for content in contents:
+        messages.append(TextSendMessage(content.username))
 
     line_bot_api.reply_message(
         event.reply_token,
-        message
+        messages[-5:]
     )
 
 
