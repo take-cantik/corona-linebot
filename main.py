@@ -30,6 +30,8 @@ class Variable(db.Model):
     def __init__(self, usernum):
         self.usernum = usernum
 
+num = 50
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
