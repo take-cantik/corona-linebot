@@ -476,7 +476,9 @@ def handle_message(event):
         number = 0
     elif num == 70:
         start = speed_start()
+        print("うおおおおおおおおおおおおおおおおおおおおおおおお")
         print(start)
+        print("うおおおおおおおおおおおおおおおおおおおおおおおお")
         speedstop = Speedstop(start)
         db.session.add(speedstop)
         db.session.commit()
@@ -485,10 +487,11 @@ def handle_message(event):
     elif num == 71:
         speed_contents = db.session.query(Speedstop).all()
         st_ti = speed_contents[-1].start_time
+        print("うおおおおおおおおおおおおおおおおおおおおおおおお")
+        print(st_ti)
+        print("うおおおおおおおおおおおおおおおおおおおおおおおお")
         message = speed_result(st_ti)
-        print("うおおおおおおおおおおおおおおおおおおおおおおおお")
         print(message)
-        print("うおおおおおおおおおおおおおおおおおおおおおおおお")
         number = 0
     else:
         message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\n・じゃんけん\n・早打ちゲーム\n・反転早打ちゲーム\n・早押しゲーム\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と「説明」を送ると分かるよ！"
