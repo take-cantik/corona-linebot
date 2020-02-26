@@ -91,9 +91,56 @@ def king_game(personnum):
              "と連絡先を交換する",
              "と30秒間見つめ合う",
              "にクサいセリフを言う",]
-    result = " ".join(str(designuser))
-    user1,user2 = map(result.split())
-    message = "{0}番の人は{1}番の人".format(user1, user2) + hands[random.randint(0, len(hands - 1))]
+    user1 = designuser[0]
+    user2 = designuser[1]
+    message = "{0}番の人は{1}番の人".format(user1, user2) + hands[random.randint(0, len(hands) - 1)]
+    return message
+
+# じゃんけんの関数
+def zyanken(reply)
+
+    #1:グー 2:チョキ 3:パー
+    if reply == "グー":
+        userhand = 1
+
+    elif reply =="チョキ":
+        userhand = 2
+
+    elif reply == "パー":
+        userhand = 3
+
+        #userhand = 4 はグーチョキパー以外が入力されたとき
+    else:
+        userhand = 4
+
+    cpuhand = random.randint(1,3)
+
+
+    if cpuhand == 1:
+        returnhand = "グー"
+    elif cpuhand == 2:
+        returnhand = "チョキ"
+    elif cpuhand == 3:
+        returnhand = "パー"
+
+    status = (userhand - cpuhand + 2) % 3
+
+
+        #0:負け　1:勝ち　2:あいこ 基準は出した人
+    if status == 0:
+        say = "あなたの犬です。このバカチンが！"
+    elif status == 1:
+        say = "ナイスですね！"
+    elif status == 2:
+        say = "カブトムシ。"
+
+
+    #userhandが4のときエラー文を出力してそれ以外のときに返答文を返す
+    if userhand == 4:
+        message = "グー、チョキ、パーをカタカナで入力してね♡"
+    else:
+        message = "私は"+returnhand+"をだしました"+ say
+
     return message
 
 @app.route("/callback", methods=['POST'])
@@ -137,6 +184,9 @@ def handle_message(event):
     elif "オリジナル王様ゲーム" in event.message.text and "説明" in event.message.text:
         number = 0
         message = ""
+    elif "じゃんけん" in event.message.text and "説明" in event.message.text:
+        number = 0
+        message = ""
     # ゲームの選択
     elif "eカード" in event.message.text: 
         number = 10
@@ -147,6 +197,9 @@ def handle_message(event):
     elif "オリジナル王様ゲーム" in event.message.text:
         number = 30
         message = "ほいだらスタートや！\n参加人数の数字だけ送ってや！"
+    elif "じゃんけん" in event.message.text:
+        number = 40
+        message = "ほいだらスタートや！\n最初はグー、じゃんけん…"
     # ゲームの内容
     elif num == 20:
         result = time_start(event.message.text)
@@ -168,6 +221,8 @@ def handle_message(event):
         number = 0
     elif num == 30:
         message = king_game(event.message.text)
+    elif num == 40:
+        message = zyanken(event.message.text)
     else:
         message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と説明を送ると分かるよ！"
         number = 0   
