@@ -25,7 +25,7 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 class Variable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    usernum = db.Column(db.Integer(100), unique=True)
+    usernum = db.Column(db.Integer, unique=True)
 
     def __init__(self, usernum):
         self.usernum = usernum
