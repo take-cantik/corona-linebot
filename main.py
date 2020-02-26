@@ -97,7 +97,7 @@ def king_game(personnum):
     return message
 
 # じゃんけんの関数
-def zyanken(reply)
+def zyanken(reply):
 
     #1:グー 2:チョキ 3:パー
     if reply == "グー":
