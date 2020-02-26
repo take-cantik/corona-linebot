@@ -41,12 +41,8 @@ def callback():
 
     # handle webhook body
     try:
-        print("userId", event.source.userId)
-        profile = line_bot_api.get_profile(event.source.userId)
         handler.handle(body, signature)
 
-    except LineBotApiError as e:
-        abort(400)
     except InvalidSignatureError:
         abort(400)
 
@@ -62,15 +58,14 @@ def handle_message(event):
     db.session.commit()
     contents = db.session.query(User).all()
 
-    #messages = []
-    message = profile
+    messages = []
 
-    #for content in contents:
-    #    messages.append(TextSendMessage(content.username))
+    for content in contents:
+        messages.append(TextSendMessage(content.username))
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=message)
+        messages
     )
 
 
