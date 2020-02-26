@@ -52,6 +52,9 @@ def time_start(stime):
 
 def timeresult(stime, start):
     usertime = int(time.time())
+    print("AHIAHI")
+    print(usertime)
+    print("AHIAHI")
     start /= 1000
     time_2 = start + stime
     usertime /= 1000
