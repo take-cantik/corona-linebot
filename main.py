@@ -23,12 +23,12 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
-class User(db.Model):
+class Variable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
+    usernum = db.Column(db.integer(100), unique=True)
 
-    def __init__(self, username):
-        self.username = username
+    def __init__(self, usernum):
+        self.usernum = usernum
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -53,15 +53,17 @@ def callback():
 def handle_message(event):
     # ここに色々書き込むよ
     
-    user = User(event.message.text)
-    db.session.add(user)
+    variable = Vriable(num)
+    db.session.add(variable)
     db.session.commit()
-    contents = db.session.query(User).all()
+    contents = db.session.query(Variable).all()
 
-    messages = []
+    print(contents)
 
     for content in contents:
-        messages.append(TextSendMessage(content.username))
+        messages.append(TextSendMessage(content.usernum))
+
+    messages = []
 
     line_bot_api.reply_message(
         event.reply_token,

@@ -41,10 +41,8 @@ def callback():
 
     # handle webhook body
     try:
-        profile = line_bot_api.get_profile(event.source.userId)
         handler.handle(body, signature)
 
-    except LineBotApiError as e:
     except InvalidSignatureError:
         abort(400)
 
