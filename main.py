@@ -41,6 +41,7 @@ def callback():
 
     # handle webhook body
     try:
+        print("userId", event.source.userId)
         profile = line_bot_api.get_profile(event.source.userId)
         handler.handle(body, signature)
 
