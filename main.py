@@ -189,7 +189,7 @@ def inputresult(start, set_message, input_word):
         difdif_time += 2
         message = "{0}を間違えて{1}と入力するのに{2}秒かかりました!\n打ち間違いには注意しよう！".format(set_message,input_word, difdif_time)
 
-    elif input_word == set_message
+    elif input_word == set_message:
         message = "{0}と入力するのに{1}秒かかりました!".format(set_message,difftime)
 
     return message
