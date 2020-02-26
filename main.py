@@ -11,6 +11,7 @@ from linebot.models import (
 )
 import os
 from flask_sqlalchemy import SQLAlchemy
+import time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
