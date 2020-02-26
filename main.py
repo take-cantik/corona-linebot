@@ -30,9 +30,6 @@ class Variable(db.Model):
     def __init__(self, usernum):
         self.usernum = usernum
 
-num = 50
-print(num)
-
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -55,23 +52,46 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     # ここに色々書き込むよ
-    
+    contents = db.session.query(Variable).all()
+    num = cotents[-1]
+
+    if "終了" in event.message.text:
+        number = 0
+        message = "り"
+    else:
+        if "eカード" in event.message.text: 
+            number = 1
+            message = "ほいだらスタートや！\n
+                       なんかテキトーに送ってや。"
+        elif "タイムストップ" in event.message.text:
+            number = 2
+            message = "ほいだらスタートや！\n
+                       なんかテキトーに送ってや。"
+        else:
+            message = "このLINEbotでは以下のゲームを行うことができます。\n
+                       ・eカード(仮)\n
+                       ・タイムストップ\n
+                       やりたいゲーム名を入力してください。"
+        
+
+
+    number = num
     variable = Variable(num)
     db.session.add(variable)
     db.session.commit()
     contents = db.session.query(Variable).all()
 
-    print(contents)
+    #print(contents)
     
-    messages = []
+    #messages = []
 
-    for content in contents:
-        messages.append(TextSendMessage(content.usernum))
+    #for content in contents:
+    #    messages.append(TextSendMessage(content.usernum))
 
 
     line_bot_api.reply_message(
         event.reply_token,
-        messages[-5:]
+        TextSendMessage(message)
     )
 
 
