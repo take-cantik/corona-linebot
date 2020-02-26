@@ -56,7 +56,7 @@ def handle_message(event):
     print("AHIAHIAHI")
     print(contents)
     print("AHIAHIAHI")
-    num = contents[-1]
+    num = contents[-1].usernum
     print("numtype", type(num))
 
     if "終了" in event.message.text:
