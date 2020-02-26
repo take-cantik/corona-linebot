@@ -55,9 +55,7 @@ def timeresult(stime, start):
     print("AHIAHI")
     print(usertime)
     print("AHIAHI")
-    start /= 1000
     time_2 = start + stime
-    usertime /= 1000
 
     if usertime > time_2:
         message = "{}秒以上でした。\n残念賞！！！".format(stime)
@@ -91,9 +89,9 @@ def handle_message(event):
     # ここに色々書き込むよ
     contents = db.session.query(Variable).all()
     num = contents[-1].usernum
-    print("AHIAHIAHI")
+    print("AHI")
     print(num)
-    print("AHIAHIAHI")
+    print("AHI")
 
     if "終了" in event.message.text:
         number = 0
