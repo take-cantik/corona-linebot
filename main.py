@@ -140,7 +140,7 @@ def zyanken(reply, num):
         message = "グー、チョキ、パーをカタカナで入力してね♡"
         num = 40
     else:
-        message = "私は"+returnhand+"をだしました"+ say + "\n"
+        message = "私は"+returnhand+"をだしました\n"+ say
         num = 0
     return message, num
 
