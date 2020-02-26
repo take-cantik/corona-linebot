@@ -53,6 +53,9 @@ def callback():
 def handle_message(event):
     # ここに色々書き込むよ
     contents = db.session.query(Variable).all()
+    print(AHIAHIAHI)
+    print(contents)
+    print(AHIAHIAHI)
     num = contents[-1]
     print("numtype", type(num))
 
