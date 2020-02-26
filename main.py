@@ -107,7 +107,10 @@ def handle_message(event):
         number = 2
         message = "ほいだらスタートや！\n何秒にするか数字だけ送ってや！"
     elif num == 2:
-        time_start(event.message.text)
+        result = time_start(event.message.text)
+        start = result[0]
+        stime = result[1]
+        message = result[3]
         timestop = Timestop(stime, start)
         db.session.add(timestop)
         db.session.commit()
@@ -116,7 +119,7 @@ def handle_message(event):
         time_contents = db.session.query(Timestop).all()
         st_ti = time_contents[-1].start_time
         se_ti = time_contents[-1].set_time
-        timeresult(se_ti, st_ti)
+        message = timeresult(se_ti, st_ti)
         number = 0
     else:
         message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と説明を送ると分かるよ！"
