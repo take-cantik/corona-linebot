@@ -119,7 +119,7 @@ def handle_message(event):
         number = 0   
 
 
-    number = num
+    num = number
     variable = Variable(num)
     db.session.add(variable)
     db.session.commit()
