@@ -55,7 +55,7 @@ def timeresult(stime, start):
     print("AHIAHI")
     print(usertime)
     print("AHIAHI")
-    time_2 = start + stime
+    time_2 = start + stime + 1.5
 
     if usertime > time_2:
         message = "{}秒以上でした。\n残念賞！！！".format(stime)
