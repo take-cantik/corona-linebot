@@ -55,7 +55,7 @@ def callback():
 def handle_message(event):
     # ここに色々書き込むよ
     
-    variable = Vriable(num)
+    variable = Variable(num)
     db.session.add(variable)
     db.session.commit()
     contents = db.session.query(Variable).all()
