@@ -60,6 +60,22 @@ class Inputstop(db.Model):
         self.start_time = start_time
         self.select_text = select_text
 
+class Turninputstop(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    start_time = db.Column(db.Integer, unique=False)
+    select_text = db.Column(db.String(80), unique=False)
+
+    def __init__(self, start_time, select_text):
+        self.start_time = start_time
+        self.select_text = select_text
+
+class Speedstop(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    start_time = db.Column(db.Integer, unique=False)
+
+    def __init__(self, start_time):
+        self.start_time = stert_time
+
 # eゲームの関数
 #"user1は数字を選択してください　\n king:0 \n citizen:1"
 def user1_chose1(reply, num):
@@ -242,8 +258,36 @@ def inputresult(start, set_message, input_word):
         message = "{0}を間違えて{1}と入力するのに{2}秒かかりました!\n打ち間違いには注意しよう！".format(set_message,input_word, difdif_time)
 
     elif input_word == set_message:
-        message = "{0}と入力するのに{1}秒かかりました!".format(set_message,difdif_time)
+        message = "{0}と入力するのに{1}秒かかりました!".format(set_message, difdif_time)
 
+    return message
+
+#反転文字を入力、、　input_start()は流用
+def turninputresult(start,set_message,input_word):
+    input_time = float(time.time())
+    difdif_time = input_time - start + 1.5
+
+    input_word = input_word[::1]
+    if  input_word != set_message:
+        difdif_time += 2
+        message = "{0}を間違えて{1}と入力するのに{2}秒かかりました!\n打ち間違いには注意しよう！".format(set_message,input_word, difdif_time)
+
+    elif input_word == set_message:
+        message = "{0}と入力するのに{1}秒かかりました!".format(set_message, difdif_time)
+
+    return message
+
+# 早押しの関数
+def speed_start(reply):
+    time.sleep(random.randint(2,8))
+    message = "スタート"
+    start = float(time.time())
+    return start
+
+def speed_result(start):
+    usertime = float(time.time())
+    difdifdif_time = usertime - (start + 1.5)
+    message = "あなたの早押し時間は{}秒でした".format(difdifdif_time)
     return message
 
 @app.route("/callback", methods=['POST'])
@@ -290,9 +334,15 @@ def handle_message(event):
     elif "じゃんけん" in event.message.text and "説明" in event.message.text:
         number = 0
         message = "vs LINE bot\n「グー」「チョキ」「パー」のいずれかを送ってください\nじゃんけんは実力\nとにかく勝て！！！"
+    elif "反転早打ちゲーム" in event.message.text and "説明" in event.message.text:
+        number = 0
+        message = '人数の目安：１〜\nこのゲームはランダムに生成された５文字を"右から逆に早く"打ってもらいます\n目指せ早打ち王！'
     elif "早打ちゲーム" in event.message.text and "説明" in event.message.text:
         number = 0
-        message = ""
+        message = "人数の目安：１〜\nこのゲームはランダムに生成された５文字を早く打ってもらいます\n目指せ早打ち王！"
+    elif "早押しゲーム" in event.message.text and "説明" in event.message.text:
+        number = 0
+        message = "人数の目安：１〜\nスタートがLINE側から出された瞬間に任意の文字をできるだけ早く押してください\n目指せ早押し王！"
     # ゲームの選択
     elif "eカード" in event.message.text: 
         number = 10
@@ -306,9 +356,15 @@ def handle_message(event):
     elif "じゃんけん" in event.message.text:
         number = 40
         message = "ほいだらスタートや！\n最初はグー、じゃんけん…"
+    elif "反転早打ちゲーム" in event.message.text:
+        number = 60
+        message = "ほいだらスタートや！\nなんか送ったら三秒後にお題が出るで！"
     elif "早打ちゲーム" in event.message.text:
         number = 50
         message = "ほいだらスタートや！\nなんか送ったら三秒後にお題が出るで！"
+    elif "早押しゲーム" in event.message.text:
+        number = 70
+        message = "ほいだらスタートや！\nなんか送ったら始まるで！\n何秒後に出てくるか分からへんから、用心しとき！"
     # ゲームの内容
     elif num == 10:
         turn = 0
@@ -404,8 +460,33 @@ def handle_message(event):
         se_te = input_contents[-1].select_text
         message = inputresult(st_ti, se_te, event.message.text)
         number = 0
+    elif num == 60:
+        result = input_start()
+        start = result[0]
+        message = result[1]
+        turninputstop = Turninputstop(start, message)
+        db.session.add(turninputstop)
+        db.session.commit()
+        number = 61
+    elif num == 61:
+        turninput_contents = db.session.query(Turninputstop).all()
+        st_ti = turninput_contents[-1].start_time
+        se_te = turninput_contents[-1].select_text
+        message = turninputresult(st_ti, se_te, event.message.text)
+        number = 0
+    elif num == 70:
+        start = speed_start()
+        speedstop = Speedstop(start)
+        db.session.add(speedstop)
+        db.session.commit()
+        number = 71
+    elif num == 71:
+        speed_contents = db.session.query(Speedstop).all()
+        st_ti = speed_contents[-1].start_time
+        message = speed_result(st_ti)
+        number = 0
     else:
-        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\n・じゃんけん\n・早打ちゲーム\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と「説明」を送ると分かるよ！"
+        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\n・じゃんけん\n・早打ちゲーム\n・反転早打ちゲーム\n・早押しゲーム\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と「説明」を送ると分かるよ！"
         number = 0   
 
 
