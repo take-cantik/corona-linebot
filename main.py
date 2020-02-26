@@ -72,7 +72,7 @@ def king_game(personnum):
     allusernum = int(personnum)
     i = []
     numnum = 1
-    for i in (allusernum - 1):
+    for i in range(allusernum - 1):
         i.append(numnum)
         numnum += 1
     #iは人の番号が入ったlist
@@ -92,7 +92,7 @@ def king_game(personnum):
              "と30秒間見つめ合う",
              "にクサいセリフを言う",]
     user1,user2 = map(designuser.split())
-    message = "{0}番の人は{1}番の人".format(user1,user2) + hands[random.randint(0,len(hands - 1))]
+    message = "{0}番の人は{1}番の人".format(user1, user2) + hands[random.randint(0, len(hands - 1))]
     return message
 
 @app.route("/callback", methods=['POST'])
