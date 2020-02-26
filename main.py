@@ -180,13 +180,13 @@ def handle_message(event):
         message = ""
     elif "タイムストップ" in event.message.text and "説明" in event.message.text:
         number = 0
-        message = ""
+        message = "人数の目安：１〜\nこのゲームはいかにピッタリの秒数を当てられるかを競うゲームです\nまずはじめにピッタリ当てたい秒数を入力してもらいます\nその後しばらくしてLINE側から”スタート”と返答されるのでその時点から測定を開始します\nもし入力した秒数になったと感じたら任意の文字を入力してください\nするとLINE側から当てたい秒数と自分の止めた秒数との差が表示されます\nなお指定した時間を超過した後に止めるとGAMEOVERです\nぴったりをめざして頑張ってください！！"
     elif "オリジナル王様ゲーム" in event.message.text and "説明" in event.message.text:
         number = 0
-        message = ""
+        message = "人数の目安：３〜\nこのゲームを始める前に参加者それぞれに番号を振ってください\n王様、命令される人、お題をLINE側から提供します！\n完全ランダムのスリルをとくとお試しあれ！"
     elif "じゃんけん" in event.message.text and "説明" in event.message.text:
         number = 0
-        message = ""
+        message = "vs LINE bot\n「グー」「チョキ」「パー」のいずれかを送ってください\nじゃんけんは実力\nとにかく勝て！！！"
     # ゲームの選択
     elif "eカード" in event.message.text: 
         number = 10
