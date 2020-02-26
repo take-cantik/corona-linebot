@@ -74,7 +74,7 @@ class Speedstop(db.Model):
     start_time = db.Column(db.Integer, unique=False)
 
     def __init__(self, start_time):
-        self.start_time = stert_time
+        self.start_time = start_time
 
 # eゲームの関数
 #"user1は数字を選択してください　\n king:0 \n citizen:1"
