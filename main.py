@@ -42,6 +42,15 @@ class Timestop(db.Model):
         self.set_time = set_time
         self.start_time = start_time
 
+class Inputstop(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    start_time = db.Column(db.Integer, unique=False)
+    select_text = db.Column(db.String(80), unique=False)
+
+    def __init__(self, start_time, select_text):
+        self.start_time = start_time
+        self.select_text = select_text
+
 # タイムストップの関数
 def time_start(stime):
     stime = int(stime)
@@ -144,6 +153,47 @@ def zyanken(reply, num):
         num = 0
     return message, num
 
+# 早打ちゲーム関数
+def input_start():
+    time.sleep(3)
+    random_word =[
+    "あしこりく",
+    "そけるみね",
+    "おじほふき",
+    "みけとかし",
+    "こいえるし",
+    "わそくいね",
+    "やきふれそ",
+    "むねひくそ",
+    "おきぬませ",
+    "こせいぬき",
+    "あえいおう",
+    "おめにしき",
+    "かせいくぬ",
+    "そめかほき",
+    "おわゆくね",
+    "めかをんき",
+    "んこめうぬ",
+    "ちたぬきみ",
+    ]
+
+    message = random.choice(random_word)
+    start = float(time.time())
+    return start, message
+
+def inputresult(start, set_message, input_word):
+    input_time = float(time.time())
+    difdif_time = input_time - start + 1.5
+
+    if  input_word != set_message:
+        difdif_time += 2
+        message = "{0}を間違えて{1}と入力するのに{2}秒かかりました!\n打ち間違いには注意しよう！".format(set_message,input_word, difdif_time)
+
+    elif input_word == set_message
+        message = "{0}と入力するのに{1}秒かかりました!".format(set_message,difftime)
+
+    return message
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -188,6 +238,9 @@ def handle_message(event):
     elif "じゃんけん" in event.message.text and "説明" in event.message.text:
         number = 0
         message = "vs LINE bot\n「グー」「チョキ」「パー」のいずれかを送ってください\nじゃんけんは実力\nとにかく勝て！！！"
+    elif "早打ちゲーム" in event.message.text and "説明" in event.message.text:
+        number = 0
+        message = ""
     # ゲームの選択
     elif "eカード" in event.message.text: 
         number = 10
@@ -201,6 +254,9 @@ def handle_message(event):
     elif "じゃんけん" in event.message.text:
         number = 40
         message = "ほいだらスタートや！\n最初はグー、じゃんけん…"
+    elif "早打ちゲーム" in event.message.text:
+        number = 50
+        message = "ほいだらスタートや！\nなんか送ったら三秒後にお題が出るで！"
     # ゲームの内容
     elif num == 20:
         result = time_start(event.message.text)
@@ -228,6 +284,20 @@ def handle_message(event):
         zyan_result = zyanken(event.message.text, zyan_num)
         message = zyan_result[0]
         number = zyan_result[1]
+    elif num == 50:
+        result = input_start()
+        start = result[0]
+        message = result[1]
+        inputstop = Inputstop(start, message)
+        db.session.add(inputstop)
+        db.session.commit()
+        number = 51
+    elif num == 51:
+        input_contents = db.session.query(Inputstop).all()
+        st_ti = input_contents[-1].start_time
+        se_te = input_contents[-1].select_text
+        message = inputresult(st_ti, se_te, event.message.text)
+        number = 0
     else:
         message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\n・じゃんけん\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と「説明」を送ると分かるよ！"
         number = 0   
