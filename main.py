@@ -50,16 +50,16 @@ def time_start(stime):
     print("AHIAHIAHI")
     return start, stime, message
 
-def timeresult(time, start):
+def timeresult(stime, start):
     usertime = int(time.time())
-    time_2 = start + time
+    time_2 = start + stime
     usertime = usertime / 1000
 
     if usertime > time_2:
-        message = time + "秒以上でした。\n残念賞！！！"
+        message = stime + "秒以上でした。\n残念賞！！！"
     elif usertime <= time_2:
         dif_time = abs(time_2 - usertime) #絶対値
-        message = time + "秒との差は" + dif_time + "秒でした。"
+        message = stime + "秒との差は" + dif_time + "秒でした。"
     return message
 
 
@@ -112,6 +112,9 @@ def handle_message(event):
         stime = result[1]
         message = result[2]
         timestop = Timestop(stime, start)
+        print("AHIAHI")
+        print(timestop)
+        print("AHIAHI")
         db.session.add(timestop)
         db.session.commit()
         number = 3
