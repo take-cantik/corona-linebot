@@ -12,6 +12,7 @@ from linebot.models import (
 import os
 from flask_sqlalchemy import SQLAlchemy
 import time
+import random
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
@@ -24,6 +25,7 @@ LINE_CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
+#クラス指定
 class Variable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usernum = db.Column(db.Integer, unique=False)
@@ -40,6 +42,7 @@ class Timestop(db.Model):
         self.set_time = set_time
         self.start_time = start_time
 
+# タイムストップの関数
 def time_start(stime):
     stime = int(stime)
     time.sleep(3)
@@ -64,6 +67,33 @@ def timeresult(stime, start):
         message = "{0}秒との差は{1}秒でした。".format(stime, dif_time)
     return message
 
+# 王様ゲームの関数
+def king_game(personnum):
+    allusernum = int(personnum)
+    i = []
+    numnum = 1
+    for i in (allusernum - 1):
+        i.append(numnum)
+        numnum += 1
+    #iは人の番号が入ったlist
+    designuser = random.sample(i,2)
+    hands = ["に一番気になる子を言う",
+             "をデコピン",
+             "に真顔で「大好き」と言う",
+             "にジュースを買ってあげる",
+             "と交際経験を赤裸々に語る",
+             "に濃厚接触をする",
+             "と初恋を語る",
+             "を褒めちぎる",
+             "が好きだと叫ぶ",
+             "を笑わせる",
+             "のものまねをする",
+             "と連絡先を交換する",
+             "と30秒間見つめ合う",
+             "にクサいセリフを言う",]
+    user1,user2 = map(designuser.split())
+    message = "{0}番の人は{1}番の人".format(user1,user2) + hands[random.randint(0,len(hands - 1))]
+    return message
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -96,19 +126,28 @@ def handle_message(event):
     if "終了" in event.message.text:
         number = 0
         message = "り"
+    # ゲームの説明
     elif "eカード" in event.message.text and "説明" in event.message.text:
         number = 0
         message = ""
     elif "タイムストップ" in event.message.text and "説明" in event.message.text:
         number = 0
         message = ""
+    elif "オリジナル王様ゲーム" in event.message.text and "説明" in event.message.text:
+        number = 0
+        message = ""
+    # ゲームの選択
     elif "eカード" in event.message.text: 
-        number = 1
+        number = 10
         message = "ほいだらスタートや！\nなんかテキトーに送ってや。"
     elif "タイムストップ" in event.message.text:
-        number = 2
+        number = 20
         message = "ほいだらスタートや！\n何秒にするか数字だけ送ってや！"
-    elif num == 2:
+    elif "オリジナル王様ゲーム" in event.message.text:
+        number = 30
+        message = "ほいだらスタートや！\n参加人数の数字だけ送ってや！"
+    # ゲームの内容
+    elif num == 20:
         result = time_start(event.message.text)
         start = result[0]
         stime = result[1]
@@ -119,15 +158,17 @@ def handle_message(event):
         print("AHIAHI")
         db.session.add(timestop)
         db.session.commit()
-        number = 3
-    elif num == 3:
+        number = 21
+    elif num == 21:
         time_contents = db.session.query(Timestop).all()
         st_ti = time_contents[-1].start_time
         se_ti = time_contents[-1].set_time
         message = timeresult(se_ti, st_ti)
         number = 0
+    elif num == 30:
+        message = king_game(event.message.text)
     else:
-        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と説明を送ると分かるよ！"
+        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と説明を送ると分かるよ！"
         number = 0   
 
 
@@ -143,8 +184,8 @@ def handle_message(event):
 
     #for content in contents:
     #    messages.append(TextSendMessage(content.usernum))
-    print("最後のやつ")
-    print(time.time())
+    #print("最後のやつ")
+    #print(time.time())
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(message)
