@@ -242,7 +242,7 @@ def inputresult(start, set_message, input_word):
         message = "{0}を間違えて{1}と入力するのに{2}秒かかりました!\n打ち間違いには注意しよう！".format(set_message,input_word, difdif_time)
 
     elif input_word == set_message:
-        message = "{0}と入力するのに{1}秒かかりました!".format(set_message,difftime)
+        message = "{0}と入力するのに{1}秒かかりました!".format(set_message,difdif_time)
 
     return message
 
@@ -404,7 +404,7 @@ def handle_message(event):
         message = inputresult(st_ti, se_te, event.message.text)
         number = 0
     else:
-        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\n・じゃんけん\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と「説明」を送ると分かるよ！"
+        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\n・じゃんけん\n・早打ちゲーム\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と「説明」を送ると分かるよ！"
         number = 0   
 
 
