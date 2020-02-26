@@ -91,7 +91,7 @@ def king_game(personnum):
              "と連絡先を交換する",
              "と30秒間見つめ合う",
              "にクサいセリフを言う",]
-    result = " ".join(designuser)
+    result = " ".join(str(designuser))
     user1,user2 = map(result.split())
     message = "{0}番の人は{1}番の人".format(user1, user2) + hands[random.randint(0, len(hands - 1))]
     return message
