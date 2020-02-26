@@ -143,8 +143,8 @@ def handle_message(event):
 
     #for content in contents:
     #    messages.append(TextSendMessage(content.usernum))
-
-
+    print("最後のやつ")
+    print(time.time())
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(message)
