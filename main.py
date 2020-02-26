@@ -226,7 +226,7 @@ def handle_message(event):
         message = zyanken(event.message.text)
         number = 0
     else:
-        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と説明を送ると分かるよ！"
+        message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\n・じゃんけん\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と「説明」を送ると分かるよ！"
         number = 0   
 
 
