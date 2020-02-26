@@ -61,17 +61,12 @@ def handle_message(event):
     else:
         if "eカード" in event.message.text: 
             number = 1
-            message = "ほいだらスタートや！\n
-                       なんかテキトーに送ってや。"
+            message = "ほいだらスタートや！\nなんかテキトーに送ってや。"
         elif "タイムストップ" in event.message.text:
             number = 2
-            message = "ほいだらスタートや！\n
-                       なんかテキトーに送ってや。"
+            message = "ほいだらスタートや！\nなんかテキトーに送ってや。"
         else:
-            message = "このLINEbotでは以下のゲームを行うことができます。\n
-                       ・eカード(仮)\n
-                       ・タイムストップ\n
-                       やりたいゲーム名を入力してください。"
+            message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\nやりたいゲーム名を入力してください。"
         
 
 
