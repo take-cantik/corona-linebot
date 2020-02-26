@@ -110,7 +110,7 @@ def handle_message(event):
         result = time_start(event.message.text)
         start = result[0]
         stime = result[1]
-        message = result[3]
+        message = result[22]
         timestop = Timestop(stime, start)
         db.session.add(timestop)
         db.session.commit()
