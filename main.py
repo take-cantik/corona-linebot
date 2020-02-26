@@ -56,10 +56,10 @@ def timeresult(stime, start):
     usertime = usertime / 1000
 
     if usertime > time_2:
-        message = stime + "秒以上でした。\n残念賞！！！"
+        message = "{}秒以上でした。\n残念賞！！！".format(stime)
     elif usertime <= time_2:
         dif_time = abs(time_2 - usertime) #絶対値
-        message = stime + "秒との差は" + dif_time + "秒でした。"
+        message = "{0}秒との差は{1}秒でした。".format(stime, dif_time)
     return message
 
 
