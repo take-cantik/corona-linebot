@@ -336,7 +336,7 @@ def handle_message(event):
             number = 12
     elif num == 12:
         k = user1_chose2(event.message.text)
-        egame_content = db.session.query(Egame).all()
+        egame_contents = db.session.query(Egame).all()
         tu = egame_contents[-1].turn
         tu += 1
         egame = Egame(k, tu)
