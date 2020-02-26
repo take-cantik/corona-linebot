@@ -45,6 +45,9 @@ def time_start(stime):
     time.sleep(3)
     message = "スタート！"
     start = int(time.time())
+    print("AHIAHIAHI")
+    print(start)
+    print("AHIAHIAHI")
     return start, stime, message
 
 def timeresult(time, start):
@@ -105,7 +108,7 @@ def handle_message(event):
         message = "ほいだらスタートや！\n何秒にするか数字だけ送ってや！"
     elif num == 2:
         time_start(event.message.text)
-        timestop = Timestop(time, start)
+        timestop = Timestop(stime, start)
         db.session.add(timestop)
         db.session.commit()
         number = 3
