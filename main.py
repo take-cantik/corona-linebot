@@ -278,7 +278,7 @@ def turninputresult(start,set_message,input_word):
     return message
 
 # 早押しの関数
-def speed_start(reply):
+def speed_start():
     time.sleep(random.randint(2,8))
     message = "スタート"
     start = float(time.time())
