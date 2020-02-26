@@ -224,7 +224,8 @@ def handle_message(event):
         message = king_game(event.message.text)
         number = 0
     elif num == 40:
-        zyan_result = zyanken(event.message.text, number)
+        zyan_num = 0
+        zyan_result = zyanken(event.message.text, zyan_num)
         message = zyan_result[0]
         number = zyan_result[1]
     else:
