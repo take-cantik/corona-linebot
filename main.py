@@ -97,7 +97,7 @@ def king_game(personnum):
     return message
 
 # じゃんけんの関数
-def zyanken(reply):
+def zyanken(reply, num):
 
     #1:グー 2:チョキ 3:パー
     if reply == "グー":
@@ -138,10 +138,11 @@ def zyanken(reply):
     #userhandが4のときエラー文を出力してそれ以外のときに返答文を返す
     if userhand == 4:
         message = "グー、チョキ、パーをカタカナで入力してね♡"
+        num = 40
     else:
         message = "私は"+returnhand+"をだしました"+ say
-
-    return message
+        num = 0
+    return message, num
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -223,8 +224,9 @@ def handle_message(event):
         message = king_game(event.message.text)
         number = 0
     elif num == 40:
-        message = zyanken(event.message.text)
-        number = 0
+        zyan_result = zyanken(event.message.text, number)
+        message = zyan_result[0]
+        number = zyan_result[1]
     else:
         message = "このLINEbotでは以下のゲームを行うことができます。\n・eカード(仮)\n・タイムストップ\n・オリジナル王様ゲーム\n・じゃんけん\nやりたいゲーム名を入力してください。\n遊び方はゲーム名と「説明」を送ると分かるよ！"
         number = 0   
