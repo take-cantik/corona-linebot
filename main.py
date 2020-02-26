@@ -70,13 +70,13 @@ def timeresult(stime, start):
 # 王様ゲームの関数
 def king_game(personnum):
     allusernum = int(personnum)
-    i = []
+    numnumnum = []
     numnum = 1
     for i in range(allusernum - 1):
-        i.append(str(numnum))
+        numnumnum.append(numnum)
         numnum += 1
     #iは人の番号が入ったlist
-    designuser = random.sample(i,2)
+    designuser = random.sample(numnumnum,2)
     hands = ["に一番気になる子を言う",
              "をデコピン",
              "に真顔で「大好き」と言う",
