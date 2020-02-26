@@ -60,7 +60,7 @@ def timeresult(stime, start):
     if usertime > time_2:
         message = "{}秒以上でした。\n残念賞！！！".format(stime)
     elif usertime <= time_2:
-        dif_time = stime - abs(time_2 - usertime) #絶対値
+        dif_time = abs(time_2 - usertime) #絶対値
         message = "{0}秒との差は{1}秒でした。".format(stime, dif_time)
     return message
 
